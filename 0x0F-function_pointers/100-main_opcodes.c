@@ -1,48 +1,39 @@
 #include <stdio.h>
-	#include <stdlib.h>
+#include <stdlib.h>
 
+/**
+ * main - Entry point
+ * @argc: No of args
+ * @argv: Array
+ * Return: 0 on success, 1 for incorrect number of arguments,
+ * 2 for negative number of bytes.
+ */
+int main(int argc, char *argv[])
+{
+	int x, num_bytes;
+	unsigned char *ptr;
 
-	/**
-	 * main - prints its own opcodes
-	 * @argc: number of arguments
-	 * @argv: array of arguments
-	 *
-	 * Return: Always 0 (Success)
-	 */
-	int main(int argc, char *argv[])
+	if (argc != 2)
 	{
-		int bytes, i;
-		char *arr;
-
-
-		if (argc != 2)
-		{
-			printf("Error\n");
-			exit(1);
-		}
-
-
-		bytes = atoi(argv[1]);
-
-
-		if (bytes < 0)
-		{
-			printf("Error\n");
-			exit(2);
-		}
-
-
-		arr = (char *)main;
-
-
-		for (i = 0; i < bytes; i++)
-		{
-			if (i == bytes - 1)
-			{
-				printf("%02hhx\n", arr[i]);
-				break;
-			}
-			printf("%02hhx ", arr[i]);
-		}
-		return (0);
+		printf("Error\n");
+		return (1);
 	}
+
+	num_bytes = atoi(argv[1]);
+
+	if (num_bytes < 0)
+	{
+		printf("Error\n");
+		return (2);
+	}
+
+	/* Print the opcodes */
+	ptr = (unsigned char *)main;
+	for (x = 0; x < num_bytes; x++)
+	{
+		printf("%02x ", ptr[x]);
+	}
+	printf("\n");
+
+	return (0);
+}

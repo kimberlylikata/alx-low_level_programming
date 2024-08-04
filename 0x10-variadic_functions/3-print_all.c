@@ -1,55 +1,50 @@
+#include <stdio.h>
+#include <stdarg.h>
 #include "variadic_functions.h"
-	#include <stdarg.h>
-	#include <stdio.h>
+#define is_fmt(c) (c == 'c' || c == 'i' || c == 's' || c == 'f')
 
+/**
+ * print_all - prints any argument passed to it
+ * @format: the format in which arguments occur
+ */
+void print_all(const char * const format, ...)
+{
+	va_list args;
+	char *str, *tmp_fmt;
 
-	/**
-	 * print_all - prints anything
-	 * @format: list of types of arguments passed to the function
-	 */
-	void print_all(const char * const format, ...)
+	va_start(args, format);
+
+	tmp_fmt = (char *)format;
+
+	while (tmp_fmt && *tmp_fmt != '\0')
 	{
-		int i = 0;
-		char *str, *sep = "";
-
-
-		va_list list;
-
-
-		va_start(list, format);
-
-
-		if (format)
+		switch (*tmp_fmt)
 		{
-			while (format[i])
-			{
-				switch (format[i])
-				{
-					case 'c':
-						printf("%s%c", sep, va_arg(list, int));
-						break;
-					case 'i':
-						printf("%s%d", sep, va_arg(list, int));
-						break;
-					case 'f':
-						printf("%s%f", sep, va_arg(list, double));
-						break;
-					case 's':
-						str = va_arg(list, char *);
-						if (!str)
-							str = "(nil)";
-						printf("%s%s", sep, str);
-						break;
-					default:
-						i++;
-						continue;
-				}
-				sep = ", ";
-				i++;
-			}
+		case 'c':
+			putchar(va_arg(args, int));
+			break;
+		case 'i':
+			printf("%d", va_arg(args, int));
+			break;
+		case 'f':
+			printf("%f", va_arg(args, double));
+			break;
+		case 's':
+			str = va_arg(args, char *);
+			if (!str)
+				str = "(nil)";
+			printf("%s", str);
+			break;
+		default:
+			++tmp_fmt;
+			continue;
 		}
+		if (is_fmt(*tmp_fmt) && *(tmp_fmt + 1) != '\0')
+			printf(", ");
 
-
-		printf("\n");
-		va_end(list);
+		++tmp_fmt;
 	}
+
+	putchar('\n');
+	va_end(args);
+}

@@ -1,45 +1,25 @@
-#include "main.h"
-		
 #include <stdlib.h>
-		
+#include "main.h"
 /**
-		
- * create_array - create array of size size and assign char c
-		
+ * create_array - creates an array
  * @size: size of array
-		
- * @c: char to assign
-		
- * Description: creat array of size size and assign char c
-		
- * Return: pointer to array, NULL if fail
-		
+ * @c: character to be inserted
  *
-		
+ * desc: using malloc, I am able to return a pointer to a locally created array
+ * Return: array
  */
-		
 char *create_array(unsigned int size, char c)
-		
 {
-		
-	char *str;
-		
-	unsigned int i;
-		
+	unsigned int m;
+	char *arr;
 
-		
-	str = malloc(sizeof(char) * size);
-		
-	if (size == 0 || str == NULL)
-		
+	if (size == 0)
 		return (NULL);
-		
 
-		
-	for (i = 0; i < size; i++)
-		
-		str[i] = c;
-		
-	return (str);
-		
+	arr = malloc(size * sizeof(char));
+	if (arr == NULL)
+		return (NULL);
+	for (m = 0; m < size; m++)
+		arr[m] = c;
+	return (arr);
 }

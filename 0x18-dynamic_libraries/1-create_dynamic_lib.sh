@@ -1,4 +1,6 @@
 #!/bin/bash
-gcc -Wall -Wextra -Werror -pedantic -c -fPIC *.c
+for file in *.c; do
+    output_file="${file%.c}.o"
+    gcc -c -fPIC "$file" -o "$output_file"
+done
 gcc -shared -o liball.so *.o
-export LD_LIBRARY_PATH=.:$LD_LIBRARY_PATH

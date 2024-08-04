@@ -1,79 +1,36 @@
-#include "main.h"
-		
-#include <stdlib.h>
-		
+#include <malloc.h>
+#include <string.h>
 /**
-		
- * argstostr - main entry
-		
- * @ac: int input
-		
- * @av: double pointer array
-		
- * Return: 0
-		
+ * argstostr - concatenates arguments
+ * @argc: No. of args
+ * @argv: point variable to a pointer
+ * Return: Ponter to string, NULL if empty
  */
-		
-char *argstostr(int ac, char **av)
-		
+char *argstostr(int argc, char **argv)
 {
-		
-	int i, n, r = 0, l = 0;
-		
-	char *str;
-		
+	char *new;
+	int x, y;
 
-		
-	if (ac == 0 || av == NULL)
-		
+	if (argc == 0 || argv == NULL)
 		return (NULL);
-		
 
-		
-	for (i = 0; i < ac; i++)
-		
-	{
-		
-		for (n = 0; av[i][n]; n++)
-		
-			l++;
-		
-	}
-		
-	l += ac;
-		
+	y = 0;
 
-		
-	str = malloc(sizeof(char) * l + 1);
-		
-	if (str == NULL)
-		
+	for (x = 0; x < argc; x++)
+		y += strlen(argv[x]) + 1;
+
+	new = (char *) malloc(y * sizeof(char) + 1);
+
+	if (new == NULL)
 		return (NULL);
-		
-	for (i = 0; i < ac; i++)
-		
+
+	new[0] = '\0';
+
+	for (x = 0; x < argc; x++)
 	{
-		
-	for (n = 0; av[i][n]; n++)
-		
-	{
-		
-		str[r] = av[i][n];
-		
-		r++;
-		
+		strcat(new, argv[x]);
+		strcat(new, "\n");
 	}
-		
-	if (str[r] == '\0')
-		
-	{
-		
-		str[r++] = '\n';
-		
-	}
-		
-	}
-		
-	return (str);
-		
+
+	return (new);
 }

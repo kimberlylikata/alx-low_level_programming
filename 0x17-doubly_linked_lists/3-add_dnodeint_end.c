@@ -1,39 +1,44 @@
 #include "lists.h"
 
 /**
- * add_dnodeint_end - adds a new node at the end
- * of a dlistint_t list
+ * add_dnodeint_end - add node at the ending
+ * @head: double pointer to head
+ * @n: data section to append infront of dll
+ * Return: address of new node
  *
- * @head: head of the list
- * @n: value of the element
- * Return: the address of the new element
  */
 dlistint_t *add_dnodeint_end(dlistint_t **head, const int n)
 {
-	dlistint_t *h;
-	dlistint_t *new;
+	/* create a new node */
+	dlistint_t *new_node;
+	/* create a node for traversing */
+	dlistint_t *currnt = NULL;
 
-	new = malloc(sizeof(dlistint_t));
-	if (new == NULL)
+	/* allocate space for new node */
+	new_node = malloc(sizeof(dlistint_t));
+	if (new_node == NULL)
 		return (NULL);
+	/* set data section of new_node */
+	new_node->n = n;
 
-	new->n = n;
-	new->next = NULL;
-
-	h = *head;
-
-	if (h != NULL)
+	/* if dll is empty, head is NULL */
+	if (*head == NULL)
 	{
-		while (h->next != NULL)
-			h = h->next;
-		h->next = new;
+		*head = new_node;
+		new_node->next = NULL;
+		new_node->prev = NULL;
 	}
 	else
 	{
-		*head = new;
+		currnt = *head;
+
+		/* traversing */
+		while (currnt->next)
+			currnt = currnt->next;
+		currnt->next = new_node;
+		new_node->next = NULL;
+		new_node->prev = currnt;
 	}
 
-	new->prev = h;
-
-	return (new);
+	return (new_node);
 }
